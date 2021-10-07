@@ -1,0 +1,92 @@
+<html>
+<head>
+
+<script language="JavaScript">
+
+var picList = [ "images/slideshow/slide1MJ.jpg", 
+				"images/slideshow/slide2Magic.jpg",
+				"images/slideshow/slide3Larry.jpg",
+				"images/slideshow/slide4Kobe.jpg",
+				"images/slideshow/slide5Lebron.jpg",
+				"images/slideshow/slide6Steph.jpg"]
+var clipList = ["sounds/audio1MJ.mp3",
+				"sounds/audio2Magic.mp3",
+				"sounds/audio3Bird.mp3",
+				"sounds/audio4Kobe.mp3",
+				"sounds/audio5Lebron.mp3",
+				"sounds/audio6Curry.mp3"]
+var counter = 0;
+var startTimer = false;
+var timer;
+
+function next()
+{
+	document.getElementById("display").src = picList[counter];
+	document.getElementById("player").src = clipList[counter];
+	document.getElementById("player").play();
+	increment();
+}
+
+function run()
+{		
+	if(startTimer==false)//timer is not running
+	{
+		startTimer = true
+		document.getElementById("runButton").value = "Pause"
+	}
+	else
+	{
+		startTimer = false
+		document.getElementById("runButton").value = "Run Slideshow"
+	}
+	
+	autoDisplay();
+}
+function autoDisplay()
+{
+	if(startTimer==true)
+	{
+		next();
+		var clipLength = clipList[counter].length;
+		timer = setTimeout ("autoDisplay()", 5000);
+	}
+	else
+	{
+		clearTimeout(timer);
+	}
+}
+
+function increment()
+{
+	if (counter == picList.length-1)
+	{
+		counter = 0;
+	}
+	else
+	{
+		counter++;
+	}
+}
+</script>
+</head>
+
+
+<body>
+<center>
+<h1> Basketball Players </h1>
+
+<a href = "index.html">Click here </a> to return to my home page
+
+<br/><br/>
+<input type = "button" value = "Next Picture" onclick="next()"/>
+<input type = "button" value = "Run Slideshow" onclick="run()" id="runButton"/>
+
+<br/><br/>
+
+<img src="images/slideshow/white.png" id="display">
+
+<audio id="player"></audio>
+
+</center>
+</body>
+</html>
