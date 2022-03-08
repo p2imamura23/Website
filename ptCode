@@ -1,0 +1,187 @@
+<html>
+<head>
+<script language = JavaScript>
+var easyWords = ["four",
+				"king",
+				"dumb",
+				"fast"
+				]
+
+var medWords = ["house",
+				"sport",
+				"naive",
+				"smart"
+				]
+var hardWords = ["science",
+				"college",
+				"process",
+				"driving"
+				]
+				
+var alpha = [ "a", 
+	          "b",  
+	          "c",  
+	          "d",  
+	          "e",  
+	          "f",  
+			  "g",
+	          "h", 
+	          "i",  
+              "j",  
+              "k",  
+              "l",  
+              "m",  
+              "n",  
+              "o",  
+              "p",  
+              "q",  
+              "r",  
+              "s",  
+              "t",  
+              "u",  
+              "v",  
+              "w",  
+              "x",  
+              "y",  
+              "z"
+				];
+				
+var numLetters;
+var wordList;
+var wordIndex;
+var word;
+var guess1;
+var guessNum;
+var wrongGuesses="";
+var numberList;
+var rightGuesses=0;
+var guessList="";
+
+function displaySelect()
+{
+	var selection = document.getElementById("Difficulty").value; 
+	getList(selection)
+}
+function getList(selection)
+{
+	if(selection == "Easy")
+	{
+		numLetters = 4;
+		wordList = easyWords;
+	}
+	else if(selection == "Medium")
+	{
+		numLetters = 5;
+		wordList = medWords;
+	}
+	else
+	{
+		numLetters = 7;
+		wordList = hardWords;
+	}
+	//alert(numLetters);
+	
+	getWord();
+}
+
+function getWord()
+{
+	wordIndex=parseInt(Math.random()*4);
+	//alert(wordList[wordIndex]);
+	word = wordList[wordIndex];
+	getDash();
+}
+
+function guess()
+{	
+	guess1 = document.getElementById("guessBox").value;
+	//guessNum= alpha.indexOf(document.getElementById("guessBox").value);
+	guessNum = alpha.indexOf(guess1);
+	//alert(guessNum);
+	insertGuess();
+}
+
+
+function insertGuess()
+{
+		//guess = document.getElementById("guessBox").value;
+		for(i=0; i<numberList.length; i++)
+		{
+			if(guessNum == numberList[i])
+			{
+				dashList[i] = guess1;
+				rightGuesses = rightGuesses + 1;
+			}
+			document.getElementById("clue").value = dashList;
+		}
+		document.getElementById("guessBox").value = "";
+		guessList = guessList + guess1
+		document.getElementById("letters").value=guessList;
+		if(rightGuesses == numLetters)
+		{
+			alert("YOU WON!!");
+		}
+		if(guessList.length == numLetters + 5)
+		{
+			alert("2 guesses left")
+		}
+		else if(guessList.length == numLetters + 7)
+		{
+			alert("You Lost. The Word was "+word)
+			document.getElementById("clue").value = "";
+			document.getElementById("letters").value = "";
+			guessList="";
+		}
+
+}
+
+function getDash()
+{
+	dashList = new Array(numLetters)
+		
+		var counter = 0;
+		while( counter < numLetters )
+		{
+			dashList[counter] = "-";
+			
+			counter++;
+		}
+		document.getElementById("clue").value = dashList;
+	
+	numberList = new Array(numLetters)
+		
+		counter = 0;
+		while( counter < numLetters )
+		{
+			
+			var letter = word.substr(counter,1);
+			var letIndex = alpha.indexOf(letter);
+			numberList[counter] = letIndex;
+			
+			counter++;
+		}
+		//alert(numberList);
+}
+
+</script>
+</head>
+<body>
+<h1>Hangman</h1>
+<br/>
+
+<select id = "Difficulty" onchange = "displaySelect()">
+		<option> ---Choose Difficulty--- </option>
+		<option> Easy </option>
+		<option> Medium </option>
+		<option> Hard </option>
+	</select>
+
+<input type = "text" id="clue" readonly size=40>
+<br/><br/>
+Guess Here <br/> <input type="text" size=40 id ="guessBox"/>
+<input type ="button" value="Enter" onClick="guess()"/>
+<br/><br/>
+Guessed Letters<br/><input type = "text" id="letters" readonly size=40>
+
+</body>
+</html>
